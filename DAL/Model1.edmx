@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HMOdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="covidDetails">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="int" Nullable="false" />
+          <Property Name="idMember" Type="int" />
+          <Property Name="numOfVaccination" Type="int" />
+          <Property Name="manufacturerVaccination" Type="nchar" MaxLength="10" />
+          <Property Name="vaccinationDate" Type="date" />
+        </EntityType>
+        <EntityType Name="HMOmembers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="memberName" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="birthDate" Type="date" />
+          <Property Name="telephone" Type="nchar" MaxLength="10" />
+          <Property Name="cellphone" Type="nchar" MaxLength="10" />
+          <Property Name="positiveDate" Type="date" />
+          <Property Name="negativeDate" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_covidDetails_HMOmembers">
+          <End Role="HMOmembers" Type="Self.HMOmembers" Multiplicity="0..1" />
+          <End Role="covidDetails" Type="Self.covidDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HMOmembers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="covidDetails">
+              <PropertyRef Name="idMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HMOdbModelStoreContainer">
+          <EntitySet Name="covidDetails" EntityType="Self.covidDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HMOmembers" EntityType="Self.HMOmembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_covidDetails_HMOmembers" Association="Self.FK_covidDetails_HMOmembers">
+            <End Role="HMOmembers" EntitySet="HMOmembers" />
+            <End Role="covidDetails" EntitySet="covidDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HMOdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="covidDetail">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="Int32" Nullable="false" />
+          <Property Name="idMember" Type="Int32" />
+          <Property Name="numOfVaccination" Type="Int32" />
+          <Property Name="manufacturerVaccination" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="vaccinationDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="HMOmember" Relationship="Self.FK_covidDetails_HMOmembers" FromRole="covidDetails" ToRole="HMOmembers" />
+        </EntityType>
+        <EntityType Name="HMOmember">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="memberName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="birthDate" Type="DateTime" Precision="0" />
+          <Property Name="telephone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="cellphone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="positiveDate" Type="DateTime" Precision="0" />
+          <Property Name="negativeDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="covidDetails" Relationship="Self.FK_covidDetails_HMOmembers" FromRole="HMOmembers" ToRole="covidDetails" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_covidDetails_HMOmembers">
+          <End Role="HMOmembers" Type="Self.HMOmember" Multiplicity="0..1" />
+          <End Role="covidDetails" Type="Self.covidDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HMOmembers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="covidDetails">
+              <PropertyRef Name="idMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HMOdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="covidDetails" EntityType="Self.covidDetail" />
+          <EntitySet Name="HMOmembers" EntityType="Self.HMOmember" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_covidDetails_HMOmembers" Association="Self.FK_covidDetails_HMOmembers">
+            <End Role="HMOmembers" EntitySet="HMOmembers" />
+            <End Role="covidDetails" EntitySet="covidDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HMOdbModelStoreContainer" CdmEntityContainer="HMOdbEntities">
+          <EntitySetMapping Name="covidDetails">
+            <EntityTypeMapping TypeName="HMOdbModel.covidDetail">
+              <MappingFragment StoreEntitySet="covidDetails">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="idMember" ColumnName="idMember" />
+                <ScalarProperty Name="numOfVaccination" ColumnName="numOfVaccination" />
+                <ScalarProperty Name="manufacturerVaccination" ColumnName="manufacturerVaccination" />
+                <ScalarProperty Name="vaccinationDate" ColumnName="vaccinationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HMOmembers">
+            <EntityTypeMapping TypeName="HMOdbModel.HMOmember">
+              <MappingFragment StoreEntitySet="HMOmembers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="memberName" ColumnName="memberName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="cellphone" ColumnName="cellphone" />
+                <ScalarProperty Name="positiveDate" ColumnName="positiveDate" />
+                <ScalarProperty Name="negativeDate" ColumnName="negativeDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HMOdbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
