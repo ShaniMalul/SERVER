@@ -6,7 +6,7 @@ In order to add a new member the user should :
 2.add the correct information
 3.click on OK:![image](https://user-images.githubusercontent.com/102317836/197621409-fbdb67f7-e456-4720-9b37-7927e7e96810.png)
 
-In order to delete a member the user clicks on delete button:![image](https://user-images.githubusercontent.com/102317836/197621779-3020c2b1-9d21-43e1-af34-1cf35116caa2.png)
+In order to delete a member the user clicks on delete button:![image](https://user-images.githubusercontent.com/102317836/197622458-474bbfa5-ed5e-4218-9ca4-d232a028edfe.png)
 
 In order to see or edit member's details the user clicks on :![image](https://user-images.githubusercontent.com/102317836/197621518-e9c923a5-fd43-4192-9852-3c2c00523ecd.png)
 In order to save the changes the user clicks on :![image](https://user-images.githubusercontent.com/102317836/197621677-4d6611dd-51f1-4ce3-bd6a-40a8e2a6cf93.png)
